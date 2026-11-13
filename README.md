@@ -2,11 +2,10 @@
 
 Snowflake decorations generated in OpenSCAD from a seed: every seed gives a
 different snowflake with six or eight arms. Each arm ends in a small ring for
-hanging, and a printed link clips snowflakes together.
+hanging, and a printed link hooks through the rings to join snowflakes.
 
-It's Mariano Lambir's
-[Infinite Snowflakes](https://www.printables.com/model/91770-infinite-snowflakes),
-with branches clipped so every seed prints in one piece.
+Every seed prints in one piece: branches are clipped to their own arm, so none
+are left floating.
 
 ![Seeds 0.1, 0.5, 0.7 and 0.93](assets/snowflakes.png)
 
@@ -57,13 +56,10 @@ trimming off, and the link's size.
 
 `just images` renders the picture above. It needs ImageMagick's `montage`.
 
-## Credits and licence
+## Origin and licence
 
-The snowflake generator and the link are Mariano Lambir's, from
-[Printables model 91770](https://www.printables.com/model/91770-infinite-snowflakes).
-My change is the `trim_branches` clipping.
-
-This repository is under
+The generator and the link grew from Mariano Lambir's
+[Infinite Snowflakes](https://www.printables.com/model/91770-infinite-snowflakes)
+on Printables. This repository is under
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); see
-[LICENSE](LICENSE). Printables refuses automated requests, so I haven't
-confirmed the licence on the original model page.
+[LICENSE](LICENSE).
