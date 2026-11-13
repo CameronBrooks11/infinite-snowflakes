@@ -1,36 +1,69 @@
-# snowflakefiniy
+# Infinite Snowflakes
 
-Easy-to-print snowflake holiday decorations that you can hang anywhere!
+Snowflake decorations generated in OpenSCAD from a seed: every seed gives a
+different snowflake with six or eight arms. Each arm ends in a small ring for
+hanging, and a printed link clips snowflakes together.
 
-These snowflakes include holes for easy hanging. You can use the included links to connect them together or simply use a piece of string to hang them as tree ornaments.
+It's Mariano Lambir's
+[Infinite Snowflakes](https://www.printables.com/model/91770-infinite-snowflakes),
+with branches clipped so every seed prints in one piece.
 
-## Features
+![Seeds 0.1, 0.5, 0.7 and 0.93](assets/snowflakes.png)
 
-- **Infinite Variations**: Use the included SCAD file to generate an unlimited variety of snowflakes by adjusting the seed and size parameters in OpenSCAD.
-- **Customizable**: Modify the design as you wish with OpenSCAD.
-- **Easy to Print**: Designed for straightforward 3D printing.
+## Use it
 
-## How to Generate Custom Snowflakes
+Open `src/snowflakes.scad` in [OpenSCAD](https://openscad.org) and set:
 
-1. Open the `snowflakes.scad` file in OpenSCAD.
-2. Adjust the `seed` and `size` parameters:
+- `seed`: any number. Each gives a different snowflake. Seeds 0.00 to 1.00 in
+  steps of 0.01 all differ.
+- `size`: the span from the top arm's tip to the bottom one's, in mm (55 by
+  default). The arms are 4 mm tall.
+- `trim_branches`: see below. Leave it on.
 
-   ```
-   seed = 0.1; // Change this value to create new snowflakes
-   size = 50;  // Adjust the size as needed
-   ```
+Render, then export an STL. The console prints the number of arms.
 
-3. Preview your snowflake and export it as an STL for printing.
+`src/link.scad` makes the connector: a 10 mm bar with an open hook at each end,
+meant to hook through the rings at the arm tips. `length` and `width` set its size.
 
-## Included Files
+### trim_branches
 
-- `snowflakes.scad`: Generate unique snowflake designs.
-- `links.scad`: Create connectors for hanging multiple snowflakes together.
+Each half-arm keeps only the branches inside its own wedge. The original
+clipping missed the region below the wedge, so a branch running down from low
+on the spine left a tail there. Some tails touch nothing: in seeds 0.00 to
+1.00, five of the 101 printed loose pieces. Seeds 0.26 and 0.93 gave 17
+pieces, 0.49 and 0.70 gave 7, and 0.60 gave 2.
 
-## License
+With `trim_branches = true`, the default, every one of those seeds is one
+piece. Trimming also removes tails that were attached, so 67 of the 101 seeds
+look different from the original, including the default 0.5. Set it to
+`false` to get the original geometry back exactly.
 
-This project is licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+## Printing
 
-## Credit
+- Print flat. Side branches are 0.6 to 1.2 mm wide, so use a 0.4 mm nozzle or
+  smaller.
+- A branch can reach past the arm tips. At `size = 55` the tips are 27.5 mm
+  from the centre, and in 16 of the 101 seeds a branch reaches further, up to
+  29.2 mm.
+- Hang a snowflake by a thread through one ring, or join several with links.
 
-Original design and SCAD file by [Mariano Lambir](https://www.printables.com/model/91770-infinite-snowflakes).
+## Checks
+
+`just test` takes about 9 s on OpenSCAD 2026.10.15. It renders every seed from
+0.00 to 1.00 in steps of 0.01 and checks that each is one piece, 55 mm across
+and 4 mm tall. It also checks that `size` scales the snowflake, that seeds
+0.26, 0.49, 0.60, 0.70 and 0.93 still give their original loose pieces with
+trimming off, and the link's size.
+
+`just images` renders the picture above. It needs ImageMagick's `montage`.
+
+## Credits and licence
+
+The snowflake generator and the link are Mariano Lambir's, from
+[Printables model 91770](https://www.printables.com/model/91770-infinite-snowflakes).
+My change is the `trim_branches` clipping.
+
+This repository is under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); see
+[LICENSE](LICENSE). Printables refuses automated requests, so I haven't
+confirmed the licence on the original model page.
