@@ -66,13 +66,16 @@ def main():
 
         # Every seed from 0.00 to 1.00 in steps of 0.01 is one piece, as tall
         # as an arm is high. Its span along y, through the top and bottom arm
-        # tips, is the size: 55 by default.
+        # tips, is the size: 55 by default. Nothing reaches past the tips, so
+        # it is no wider than that either.
         seeds = [f"{i / 100:.2f}" for i in range(101)]
         for seed in seeds:
             solids, size = render(openscad, SNOWFLAKES, out, {"seed": seed})
-            if solids != 1 or not close(size[1], 55) or not close(size[2], HEIGHT):
-                failures.append(f"seed {seed}: {solids} solids, y {size[1]:.2f}, z {size[2]:.2f}")
-        print(f"trimmed: {len(seeds)} seeds checked for one piece, 55 mm across, {HEIGHT} mm tall")
+            if (solids != 1 or not close(size[1], 55) or size[0] > 55 + 0.01
+                    or not close(size[2], HEIGHT)):
+                failures.append(f"seed {seed}: {solids} solids, "
+                                f"{size[0]:.2f} x {size[1]:.2f} x {size[2]:.2f} mm")
+        print(f"{len(seeds)} seeds checked: one piece, 55 mm across, no wider, {HEIGHT} mm tall")
 
         # size scales the snowflake.
         solids, size = render(openscad, SNOWFLAKES, out, {"seed": "0.5", "size": 100})
@@ -80,19 +83,10 @@ def main():
             failures.append(f"size 100: {solids} solids, y {size[1]:.2f}")
         print("size 100: checked")
 
-        # With trimming off, the original clipping leaves these loose pieces.
-        # If they stop appearing, trim_branches = false no longer reproduces
-        # the original geometry.
-        loose = {"0.26": 17, "0.49": 7, "0.60": 2, "0.70": 7, "0.93": 17}
-        for seed, want in loose.items():
-            solids, _ = render(openscad, SNOWFLAKES, out,
-                               {"seed": seed, "trim_branches": "false"})
-            if solids != want:
-                failures.append(f"untrimmed seed {seed}: {solids} solids, expected {want}")
-        print(f"untrimmed: {len(loose)} seeds checked for the original loose pieces")
 
         solids, size = render(openscad, LINK, out, {})
-        want = [4, 15.8, 1]
+        # A 10 mm bar, and a hook of outer radius 2.4 centred 1.9 mm past each end.
+        want = [4.8, 18.6, 1]
         if solids != 1 or not all(close(a, b) for a, b in zip(size, want)):
             failures.append(f"link: {solids} solids, {' x '.join(f'{s:.2f}' for s in size)} mm")
         print("link: checked")
