@@ -1,7 +1,7 @@
 default:
     @just --list
 
-# Render 101 seeds, the untrimmed loose-piece seeds and the link, and check each
+# Render 101 seeds, the link and the example, and check each
 test:
     python3 tests/test_snowflakes.py
 
