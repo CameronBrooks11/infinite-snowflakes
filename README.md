@@ -19,6 +19,7 @@ Open `src/snowflakes.scad` in [OpenSCAD](https://openscad.org) and set:
   default). The arms are 4 mm tall.
 
 Render, then export an STL. The console prints the number of arms.
+`examples/window_snowflake.scad` includes the file and sets both.
 
 `src/link.scad` makes the connector: a 10 mm bar with an open hook at each end,
 meant to hook through the rings at the arm tips. `length` and `width` set its size.
@@ -35,8 +36,12 @@ meant to hook through the rings at the arm tips. `length` and `width` set its si
 
 `just test` takes about 6 s on OpenSCAD 2026.10.15. It renders every seed from
 0.00 to 1.00 in steps of 0.01 and checks that each is one piece, 55 mm across,
-no wider, and 4 mm tall. It also checks that `size` scales the snowflake, and
-the link's size.
+no wider, and 4 mm tall. It also checks that `size` scales the snowflake, the
+link's size, and that `examples/window_snowflake.scad` is one piece, 100 mm
+across. Any `ERROR` or `WARNING` from OpenSCAD fails the run.
+
+`just check` checks the `.scad` files are formatted with
+[topiary](https://github.com/tweag/topiary) 0.8.0; `just fmt` formats them.
 
 `just images` renders the picture above. It needs ImageMagick's `montage`.
 
