@@ -1,1 +1,3 @@
+title: infinite-snowflakes
+description: Snowflake decorations generated in OpenSCAD from a seed, each printed in one piece, with a link to join them
 models: src/snowflakes.scad, src/link.scad
